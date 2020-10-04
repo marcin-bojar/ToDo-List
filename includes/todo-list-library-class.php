@@ -16,12 +16,17 @@ class ToDoListLibrary
   {
     while ($todo_items->have_posts()) {
       $todo_items->the_post(); ?>
-<div class="todo-list__group">
+<div class="todo-list__group" data-id=<?php echo get_the_ID(); ?>>
     <div class="todo-list__checkbox-container">
-        <input type="checkbox" checked aria-checked="true">
+        <input id="item-todo" type="checkbox" <?php if (
+          get_the_content() == 'DONE'
+        ) {
+          echo 'checked';
+        } ?>>
     </div>
-    <div class="todo-list__item">
-        <span class="todo_list__description"><?php the_title(); ?></span>
+    <div id="title" class="todo-list__item">
+        <span class="todo-list__description"><?php the_title(); ?></span>
+        <div id="delete" class="todo-list__delete">&times;</div> <!-- Should be <button></button> -->
     </div>
 </div>
 <?php

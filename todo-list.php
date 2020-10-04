@@ -44,7 +44,7 @@ function create_todo_item()
     ],
     'description' => 'ToDo items are displayed In TodO List plugin.',
     'public' => true,
-    'supports' => ['title'],
+    'supports' => ['title', 'editor', 'custom-fields'],
     'menu_icon' => 'dashicons-editor-ul',
     'has_archive' => true,
   ]);
@@ -56,12 +56,73 @@ function add_todo_item()
 {
   check_ajax_referer('nonce');
 
-  echo 'success';
-  //   $respone['success'] = true;
-  //   $respone = json_encode($respone);
-  //   echo $response;
+  $_POST = json_decode(file_get_contents('php://input'), true);
+  $title = filter_var($_POST['taskName'], FILTER_SANITIZE_STRING);
+  $toDo = $_POST['toDo'];
+
+  $post_data = [
+    'post_title' => $title,
+    'post_content' => $toDo,
+    'post_status' => 'publish',
+    'post_type' => 'todo-item',
+  ];
+
+  $pid = wp_insert_post($post_data);
+
+  echo 'Success';
   wp_die();
 }
 
+function change_todo_status()
+{
+  check_ajax_referer('nonce');
+
+  $_POST = json_decode(file_get_contents('php://input'), true);
+  $ID = $_POST['ID'];
+
+  $post = get_post($ID, ARRAY_A);
+  $post['post_content'] = $post['post_content'] == 'DONE' ? 'UNDONE' : 'DONE';
+  $post['ID'] = $ID;
+  wp_insert_post($post);
+
+  echo 'Success';
+  wp_die();
+}
+
+function change_todo_name()
+{
+  check_ajax_referer('nonce');
+
+  $_POST = json_decode(file_get_contents('php://input'), true);
+  $title = $_POST['name'];
+  $ID = $_POST['ID'];
+
+  $post = get_post($ID, ARRAY_A);
+  $post['post_title'] = $title;
+  $post['ID'] = $ID;
+  wp_insert_post($post);
+
+  echo 'Success';
+  wp_die();
+}
+
+function delete_todo_item()
+{
+  check_ajax_referer('nonce');
+
+  $_POST = json_decode(file_get_contents('php://input'), true);
+  $ID = $_POST['ID'];
+
+  wp_delete_post($ID);
+
+  echo 'Success';
+  wp_die();
+}
+
+// Only logged in users can add new ToDo Item the the plugin or modify existing one!
 add_action('wp_ajax_add_todo_item', 'add_todo_item');
+add_action('wp_ajax_change_todo_status', 'change_todo_status');
+add_action('wp_ajax_change_todo_name', 'change_todo_name');
+add_action('wp_ajax_delete_todo_item', 'delete_todo_item');
+
 // add_action('wp_ajax_nopriv_add_todo_item', 'add_todo_item');

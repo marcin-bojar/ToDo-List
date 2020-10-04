@@ -1,3 +1,9 @@
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans&display=swap");
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: inherit; }
+
 .todo-list {
   display: flex;
   flex-direction: column;
@@ -5,9 +11,11 @@
   width: 40rem;
   border: 1px solid #cccccc;
   box-shadow: 0 2px 0 rgba(0, 0, 0, 0.3);
-  margin: 0 0 3rem 0; }
+  margin: 0 0 3rem 0;
+  font-family: 'Open Sans', sans-serif; }
   .todo-list__group {
-    display: flex; }
+    display: flex;
+    position: relative; }
   .todo-list__group--input {
     background-color: #e2e1e1; }
   .todo-list__checkbox-container {
@@ -34,7 +42,10 @@
     width: 85%;
     border-left: 1px solid #f87e45;
     padding: 1rem 1.3rem;
-    border-bottom: 1px solid #e7e7e7; }
+    border-bottom: 1px solid #e7e7e7;
+    cursor: pointer; }
+  .todo-list__description {
+    pointer-events: none; }
   .todo-list__input-container .todo-list__input {
     width: 100%;
     padding: 0.5rem 1rem 0.5rem 0.7rem;
@@ -43,4 +54,18 @@
     font-family: inherit;
     background-color: #e2e1e1; }
   .todo-list__input:focus {
-    outline: none; }
+    outline: none;
+    background-color: #e2e1e1; }
+  .todo-list__delete {
+    position: absolute;
+    top: 50%;
+    right: -1rem;
+    transform: translateY(-50%);
+    font-size: 4rem;
+    color: #bd1717;
+    cursor: pointer;
+    opacity: 0;
+    transition: 0.3s opacity, right 0.3s; }
+  .todo-list__item:hover .todo-list__delete {
+    opacity: 1;
+    right: -2.6rem; }

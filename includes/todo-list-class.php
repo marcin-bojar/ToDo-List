@@ -30,11 +30,10 @@ class ToDoList extends WP_Widget
     <form method="post" action="" id="add-todo-item" class="todo-list__form--input">
         <div class="todo-list__group todo-list__group--input">
             <div class="todo-list__checkbox-container">
-                <input type="checkbox">
+                <input id="todo" type="checkbox">
             </div>
             <div class="todo-list__input-container">
-                <input type="text" id="task" name="todo-item" class="todo-list__input"
-                    placeholder="Enter new task here...">
+                <input type="text" id="task" name="title" class="todo-list__input" placeholder="Enter new task here...">
             </div>
         </div>
     </form>
@@ -80,25 +79,5 @@ class ToDoList extends WP_Widget
     return $instance;
   }
 }
-
-// if (
-//   'POST' == $_SERVER['REQUEST_METHOD'] &&
-//   !empty($_POST['title']) &&
-//   $_POST['action'] == 'new_todo_item'
-// ) {
-//   if (isset($_POST['title'])) {
-//     $title = $_POST['title'];
-//   } else {
-//     echo 'Please enter what you nedd to do';
-//   }
-
-//   $todo_item = [
-//     'post_title' => $title,
-//     'post_status' => 'publish',
-//     'post_type' => $_POST['name'],
-//   ];
-
-//   $pid = wp_insert_post($todo_item);
-// }
 
 ?>

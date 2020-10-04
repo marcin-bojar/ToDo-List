@@ -10,7 +10,10 @@ function todo_add_scripts()
 
   wp_enqueue_script(
     'todo-main-script',
-    plugins_url() . '/todo-list/public/js/bundle.js'
+    plugins_url() . '/todo-list/public/js/bundle.js',
+    [],
+    false,
+    true
   );
 
   wp_localize_script('todo-main-script', 'call_data', [
